@@ -89,7 +89,7 @@ root@master01:~# flux   check   --pre    #验证k8s集群
 ---------------
 #此配置基于access token存在一定的问题，下边的方式基于ssk key是没有问题的
 flux bootstrap gitlab --owner=flux-cd \
-  --hostname="http://gitlab.x.xinghuihuyu.cn" \
+  --hostname="http://gitlab.forcemcs.cn" \
   --repository=flux-infra \
   --branch=main \
   --path=clusters/dev \
@@ -100,7 +100,7 @@ flux bootstrap gitlab --owner=flux-cd \
 -------------------
 #基于ssh  key
 flux bootstrap git \
-  --url=ssh://git@gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra \
+  --url=ssh://git@gitlab.forcemcs.cn/flux-cd/flux-infra \
   --branch=main \
   --private-key-file=/root/.ssh/id_rsa \
   --path=clusters/dev \
@@ -161,7 +161,7 @@ flux   create   source  git --help
 有关source API的说明请参考Toolkit Components
 
 flux create source git instavote \
-  --url=ssh://git@gitlab.x.xinghuihuyu.cn/flux-cd/instavote.git \
+  --url=ssh://git@gitlab.forcemcs.cn/flux-cd/instavote.git \
   --branch=main \
   --interval 30s \
   --private-key-file=/root/.ssh/id_rsa
@@ -200,7 +200,7 @@ spec:
   secretRef:
     name: app-demo
   timeout: 1m0s
-  url: ssh://git@gitlab.x.xinghuihuyu.cn/flux-cd/app-demo.git
+  url: ssh://git@gitlab.forcemcs.cn/flux-cd/app-demo.git
 root@master01:~/game/flux-infra/clusters/dev# ls
 flux-system  instavote-gitrepository.yaml
 root@master01:~/game/flux-infra/clusters/dev# flux   export    kustomization   vote-dev     
@@ -260,15 +260,15 @@ root@master01:~/game/flux-infra/clusters/dev# git commit   -am "add source and  
 root@master01:~/game/flux-infra/clusters/dev# git  push  origin 
 HEAD          main          origin/HEAD   origin/main   
 root@master01:~/game/flux-infra/clusters/dev# git  push  origin  main   
-Username for 'http://gitlab.x.xinghuihuyu.cn': root
-Password for 'http://root@gitlab.x.xinghuihuyu.cn': 
+Username for 'http://gitlab.forcemcs.cn': root
+Password for 'http://root@gitlab.forcemcs.cn': 
 Enumerating objects: 9, done.
 Counting objects: 100% (9/9), done.
 Delta compression using up to 2 threads
 Compressing objects: 100% (6/6), done.
 Writing objects: 100% (6/6), 886 bytes | 886.00 KiB/s, done.
 Total 6 (delta 0), reused 0 (delta 0), pack-reused 0
-To http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra.git
+To http://gitlab.forcemcs.cn/flux-cd/flux-infra.git
    e74db2d..f2cf6bf  main -> main
 9.健康检测
 root@master01:~/game/flux-infra/clusters/dev# flux create kustomization  vote-dev \
@@ -303,15 +303,15 @@ root@master01:~/game/flux-infra/clusters/dev# git  commit -am "health check for 
 [main c2f30d9] health check for   kustomization
  1 file changed, 6 insertions(+), 1 deletion(-)
 root@master01:~/game/flux-infra/clusters/dev# git  push origin  main   
-Username for 'http://gitlab.x.xinghuihuyu.cn': root
-Password for 'http://root@gitlab.x.xinghuihuyu.cn': 
+Username for 'http://gitlab.forcemcs.cn': root
+Password for 'http://root@gitlab.forcemcs.cn': 
 Enumerating objects: 9, done.
 Counting objects: 100% (9/9), done.
 Delta compression using up to 2 threads
 Compressing objects: 100% (5/5), done.
 Writing objects: 100% (5/5), 538 bytes | 538.00 KiB/s, done.
 Total 5 (delta 2), reused 0 (delta 0), pack-reused 0
-To http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra.git
+To http://gitlab.forcemcs.cn/flux-cd/flux-infra.git
    f2cf6bf..c2f30d9  main -> main
 
 
@@ -355,7 +355,7 @@ flux create kustomization vote-dev \
 2.将GKE集群的上下文配置到kubeconfig文件中
 3.暂存环境的引导(克隆存储库和分支，生成清单，同步清单，安装gitops工具)
 flux bootstrap git \
-  --url=ssh://git@gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra \
+  --url=ssh://git@gitlab.forcemcs.cn/flux-cd/flux-infra \
   --context=<your-staging-context>
   --branch=main \
   --private-key-file=/root/.ssh/id_rsa \
@@ -451,7 +451,7 @@ patchesStrategicMerge:
 3.使用自定义配置部署开发环境
 #修改gitops存储库的Kustomization yaml文件
 root@master01:~/game/flux-infra/clusters/dev# git pull origin  main 
-From http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra
+From http://gitlab.forcemcs.cn/flux-cd/flux-infra
  * branch            main       -> FETCH_HEAD
 Already up to date.
 root@master01:~/game/flux-infra/clusters/dev# ll
@@ -489,7 +489,7 @@ root@master01:~/game/flux-infra/clusters/dev# git commit  -am   "update   vote-d
 [main db5bf46] update   vote-devkustomization
  1 file changed, 1 insertion(+), 1 deletion(-)
 root@master01:~/game/flux-infra/clusters/dev# git push origin  main  
-Username for 'http://gitlab.x.xinghuihuyu.cn': root 
+Username for 'http://gitlab.forcemcs.cn': root 
 4.配置staging环境
 root@master01:~/game/app-demo/deploy/vote# tree  
 .
@@ -1057,21 +1057,21 @@ root@master01:~/game/flux-infra/clusters/dev# git commit -m  "commit for helm "
  create mode 100644 clusters/dev/db-helmrepository.yaml
  create mode 100644 clusters/dev/values.db.yaml
 root@master01:~/game/flux-infra/clusters/dev# git push origin  main  
-Username for 'http://gitlab.x.xinghuihuyu.cn': root
-Password for 'http://root@gitlab.x.xinghuihuyu.cn': 
+Username for 'http://gitlab.forcemcs.cn': root
+Password for 'http://root@gitlab.forcemcs.cn': 
 Enumerating objects: 10, done.
 Counting objects: 100% (10/10), done.
 Delta compression using up to 2 threads
 Compressing objects: 100% (7/7), done.
 Writing objects: 100% (7/7), 1.04 KiB | 1.04 MiB/s, done.
 Total 7 (delta 0), reused 0 (delta 0), pack-reused 0
-To http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra.git
+To http://gitlab.forcemcs.cn/flux-cd/flux-infra.git
    3ada5fa..57840bd  main -> main
 ```
 
 ### Using Git Repository as a Chart Source
 
-在之前使用git source + kustomize的示例中，关联的git[存储库为](http://gitlab.x.xinghuihuyu.cn/flux-cd/app-demo.git)
+在之前使用git source + kustomize的示例中，关联的git[存储库为](http://gitlab.forcemcs.cn/flux-cd/app-demo.git)
 
 ![2](.//img/2.png)
 
@@ -1118,15 +1118,15 @@ root@master01:~/game/app-demo/deploy/charts/result# git commit  -m "git repo  fo
  create mode 100644 deploy/charts/result/templates/tests/test-connection.yaml
  create mode 100644 deploy/charts/result/values.yaml
 root@master01:~/game/app-demo/deploy/charts/result# git  push origin  main 
-Username for 'http://gitlab.x.xinghuihuyu.cn': root
-Password for 'http://root@gitlab.x.xinghuihuyu.cn': 
+Username for 'http://gitlab.forcemcs.cn': root
+Password for 'http://root@gitlab.forcemcs.cn': 
 Enumerating objects: 19, done.
 Counting objects: 100% (19/19), done.
 Delta compression using up to 2 threads
 Compressing objects: 100% (14/14), done.
 Writing objects: 100% (17/17), 5.27 KiB | 5.27 MiB/s, done.
 Total 17 (delta 0), reused 0 (delta 0), pack-reused 0
-To http://gitlab.x.xinghuihuyu.cn/flux-cd/app-demo.git
+To http://gitlab.forcemcs.cn/flux-cd/app-demo.git
    9ac9dbe..9767379  main -> main
 
 ```
@@ -1216,15 +1216,15 @@ root@master01:~/game/flux-infra/clusters/dev# git commit  -m  "result-helmreleas
  1 file changed, 16 insertions(+)
  create mode 100644 clusters/dev/result-helmrelease.yaml
 root@master01:~/game/flux-infra/clusters/dev# git push origin  main 
-Username for 'http://gitlab.x.xinghuihuyu.cn': root
-Password for 'http://root@gitlab.x.xinghuihuyu.cn': 
+Username for 'http://gitlab.forcemcs.cn': root
+Password for 'http://root@gitlab.forcemcs.cn': 
 Enumerating objects: 8, done.
 Counting objects: 100% (8/8), done.
 Delta compression using up to 2 threads
 Compressing objects: 100% (5/5), done.
 Writing objects: 100% (5/5), 646 bytes | 646.00 KiB/s, done.
 Total 5 (delta 1), reused 0 (delta 0), pack-reused 0
-To http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra.git
+To http://gitlab.forcemcs.cn/flux-cd/flux-infra.git
    57840bd..39f1943  main -> main
 
 ```
@@ -1259,7 +1259,7 @@ To http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra.git
 <img src=".//img/slack.png" alt="slack" style="zoom:50%;" />
 
 ```shell
-root@master01:~#kubectl  create   secret    generic   mattermost-url  --from-literal=address="http://mattermost.x.xinghuihuyu.cn:8065/hooks/ji7a9iec8jyjmgegaoq9xtuhqa"  -n flux-system 
+root@master01:~#kubectl  create   secret    generic   mattermost-url  --from-literal=address="http://mattermost.forcemcs.cn:8065/hooks/ji7a9iec8jyjmgegaoq9xtuhqa"  -n flux-system 
 root@master01:~#   flux create alert-provider mattermost \
 >   --type slack \
 >   --channel="#alerts" \
@@ -1354,15 +1354,15 @@ root@master01:~/game/flux-infra/clusters/dev# git commit -m  "mattermost-*"
  create mode 100644 clusters/dev/mattermost-alert-provider.yaml
  create mode 100644 clusters/dev/mattermost-notification-alert.yaml
 root@master01:~/game/flux-infra/clusters/dev# git push  origin  main 
-Username for 'http://gitlab.x.xinghuihuyu.cn': root
-Password for 'http://root@gitlab.x.xinghuihuyu.cn': 
+Username for 'http://gitlab.forcemcs.cn': root
+Password for 'http://root@gitlab.forcemcs.cn': 
 Enumerating objects: 9, done.
 Counting objects: 100% (9/9), done.
 Delta compression using up to 2 threads
 Compressing objects: 100% (6/6), done.
 Writing objects: 100% (6/6), 830 bytes | 830.00 KiB/s, done.
 Total 6 (delta 1), reused 0 (delta 0), pack-reused 0
-To http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra.git
+To http://gitlab.forcemcs.cn/flux-cd/flux-infra.git
    39f1943..49c26c9  main -> main
 
 ```
@@ -1375,7 +1375,7 @@ To http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra.git
 
 ```shell
 root@master01:~# kubectl  create   secret    generic   gitlab-token  --from-literal=token="glpat-1KzP8K3TA7ij7TtsYEQh"   -n flux-system   
-root@master01:~# flux   create    alert-provider   gitlab-app-demo   --type gitlab --address="http://gitlab.x.xinghuihuyu.cn/flux-cd/app-demo.git"  --secret-ref=gitlab-token   
+root@master01:~# flux   create    alert-provider   gitlab-app-demo   --type gitlab --address="http://gitlab.forcemcs.cn/flux-cd/app-demo.git"  --secret-ref=gitlab-token   
 ✚ generating Provider
 ► applying Provider
 ✔ Provider created
@@ -1435,15 +1435,15 @@ root@master01:~/game/flux-infra/clusters/dev# git commit    -m  "commit for gitl
  create mode 100644 clusters/dev/gitlab-redis-dev-alert.yaml
  create mode 100644 clusters/dev/gitlab-vote-dev-alert.yaml
 root@master01:~/game/flux-infra/clusters/dev# git push   origin  main  
-Username for 'http://gitlab.x.xinghuihuyu.cn': root
-Password for 'http://root@gitlab.x.xinghuihuyu.cn': 
+Username for 'http://gitlab.forcemcs.cn': root
+Password for 'http://root@gitlab.forcemcs.cn': 
 Enumerating objects: 10, done.
 Counting objects: 100% (10/10), done.
 Delta compression using up to 2 threads
 Compressing objects: 100% (7/7), done.
 Writing objects: 100% (7/7), 893 bytes | 446.00 KiB/s, done.
 Total 7 (delta 2), reused 0 (delta 0), pack-reused 0
-To http://gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra.git
+To http://gitlab.forcemcs.cn/flux-cd/flux-infra.git
    49c26c9..0c6291b  main -> main
 
 ```
@@ -1776,7 +1776,7 @@ image-reflector-controller 和 image-automation-controller 协同工作，在新
 
 ```shell
 flux bootstrap git \
-  --url=ssh://git@gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra \
+  --url=ssh://git@gitlab.forcemcs.cn/flux-cd/flux-infra \
   --branch=main \
   --private-key-file=/root/.ssh/id_rsa \
   --path=clusters/dev \
@@ -1870,7 +1870,7 @@ vote	harbor.forcecs.com:32415/vote/vote:main-646fa717-1699328554	True 	Latest im
   
   #这一步可以忽略，我们之前创建过GitRepository中所使用的app-demo  然后执行 flux   reconcile   kustomization  flux-system    --with-source
   flux create secret git gitlab-auth \
-    --url=http://gitlab.x.xinghuihuyu.cn/flux-cd/app-demo.git \
+    --url=http://gitlab.forcemcs.cn/flux-cd/app-demo.git \
     --username=root \
     --password=basic123   -n flux-system
     
@@ -2226,7 +2226,7 @@ All PipelineRuns(Completed) deleted in namespace "default"
         branch: main
       secretRef:
         name: flux-system
-      url: ssh://git@gitlab.x.xinghuihuyu.cn/flux-cd/flux-infra
+      url: ssh://git@gitlab.forcemcs.cn/flux-cd/flux-infra
     ---
     apiVersion: kustomize.toolkit.fluxcd.io/v1
     kind: Kustomization
@@ -2248,7 +2248,7 @@ All PipelineRuns(Completed) deleted in namespace "default"
 
 ```shell
 flux bootstrap git \
-  --url=ssh://git@gitlab.x.xinghuihuyu.cn/multi-tenant/flux-fleet \
+  --url=ssh://git@gitlab.forcemcs.cn/multi-tenant/flux-fleet \
   --branch=main \
   --private-key-file=/root/.ssh/id_rsa \
   --path=./clusters/staging \
@@ -2402,7 +2402,7 @@ secret/instavote-deploy-repo created
 
 flux create source git instavote-deploy \
 --namespace=instavote \
---url=http://gitlab.x.xinghuihuyu.cn/multi-tenant/instavote-deploy.git \
+--url=http://gitlab.forcemcs.cn/multi-tenant/instavote-deploy.git \
 --branch=main \
 --export > instavote/instavote-deploy-gitrepository.yaml
 
