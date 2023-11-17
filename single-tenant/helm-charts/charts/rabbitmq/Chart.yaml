@@ -1,0 +1,12 @@
+apiVersion: v2
+name: rabbitmq
+description: A Helm chart for a RabbitMQ cluster on Kubernetes
+
+type: application
+
+maintainers:
+  - name: groundhog2k
+
+version: 0.2.13
+
+appVersion: "3.8.14"

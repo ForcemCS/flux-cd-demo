@@ -1,0 +1,17 @@
+#由于需要通过ingress-nginx svc来测试metrics指标，所以需要这个文件
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ingress-nginx-monitor
+  namespace: ingress-nginx
+  labels:
+    app: ingress-nginx-monitor
+spec:
+  namespaceSelector:
+    matchNames:
+    - ingress-nginx
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: ingress-nginx
+  endpoints:
+  - port: http-metrics

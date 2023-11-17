@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- db-helmrelease.yaml
+- db-helmrepository.yaml
+- gitlab-app-demo-provider.yaml
+- gitlab-receiver-app-demo.yaml
+- gitlab-redis-dev-alert.yaml
+- gitlab-vote-dev-alert.yaml
+- instavote-gitrepository.yaml
+- mattermost-alert-provider.yaml
+- mattermost-notification-alert.yaml
+- monitoring-kustomization.yaml
+- redis-kustomization.yaml
+- result-helmrelease.yaml
+- vote-dev-kustomization.yaml
+- vote-image-policy.yaml
+- vote-image-repository.yaml
+- vote-image-update.yaml

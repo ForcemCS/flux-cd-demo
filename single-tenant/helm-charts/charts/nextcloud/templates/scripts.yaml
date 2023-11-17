@@ -1,0 +1,15 @@
+{{- if .Values.enablePostUpgradeHook }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nextcloud.fullname" . }}-scripts
+  labels:
+    {{- include "nextcloud.labels" . | nindent 4 }}
+data:
+  initdb.sh: |
+    #!/bin/sh
+    sleep {{ .Values.postUpgradeHookDelay }}
+    {{- range .Values.postUpgradeSteps }}
+    {{ . }}
+    {{- end }}    
+{{- end }}

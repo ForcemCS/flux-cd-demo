@@ -1,0 +1,21 @@
+#新增flagger使用的指标，因为自带的测试指标指标重新打标签了，不可使用
+apiVersion: flagger.app/v1beta1
+kind: MetricTemplate
+metadata:
+  name: error-rate
+  namespace: ingress-nginx
+spec:
+  provider:
+    type: prometheus
+    address: http://prometheus-k8s.monitoring.svc:9090
+  query: |
+    100  - sum(
+      rate( 
+        nginx_ingress_controller_requests{
+    	  exported_namespace="instavote",
+    	  ingress="vote",
+    	  status!~"5.*"
+    	}[3m]
+       ))
+    /
+    sum(rate( nginx_ingress_controller_requests{exported_namespace="instavote",ingress="vote"}[3m])) * 100

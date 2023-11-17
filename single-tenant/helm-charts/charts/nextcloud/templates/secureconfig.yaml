@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "nextcloud.fullname" . }}
+  labels:
+    {{- include "nextcloud.labels" . | nindent 4 }}
+data:
+{{- if .Values.mariadb.enabled }}
+  MYSQL_HOST: {{ (include "mariadb.servicename" .) | b64enc }}
+  {{- with .Values.mariadb.userDatabase }}
+  MYSQL_DATABASE: {{ .name | b64enc }}
+  MYSQL_USER: {{ .user | b64enc }}
+  MYSQL_PASSWORD: {{ .password | b64enc }}
+  {{- end }}
+{{- else }}
+{{- if .Values.postgres.enabled }}
+  POSTGRES_HOST: {{ (include "postgres.servicename" .) | b64enc }}
+  {{- with .Values.postgres.userDatabase }}
+  POSTGRES_DB: {{ .name | b64enc }}
+  POSTGRES_USER: {{ .user | b64enc }}
+  POSTGRES_PASSWORD: {{ .password | b64enc }}
+  {{- end }}
+{{- else }}
+{{- with .Values.externalDatabase }}
+  {{- if or (eq .type "mariadb") (eq .type "mysql") }}
+  MYSQL_DATABASE: {{ .name | b64enc }}
+  MYSQL_USER: {{ .user | b64enc }}
+  MYSQL_PASSWORD: {{ .password | b64enc }}
+  MYSQL_HOST: {{ .host | b64enc }}
+  {{- else if eq .type "postgres" }}
+  POSTGRES_DB: {{ .name | b64enc }}
+  POSTGRES_USER: {{ .user | b64enc }}
+  POSTGRES_PASSWORD: {{ .password | b64enc }}
+  POSTGRES_HOST: {{ .host | b64enc }}
+  {{- else if eq .type "sqlite" }}
+  SQLITE_DATABASE: {{ .name | b64enc }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if .Values.redis.enabled }}
+  REDIS_HOST: {{ (include "redis.servicename" .) | b64enc }}
+  REDIS_HOST_PORT: {{ (.Values.redis.service.port | toString) | b64enc }}
+  {{- if .Values.redis.password }}
+  REDIS_HOST_PASSWORD: {{ .Values.redis.password | b64enc }}
+  {{- end }}
+{{- else }}
+  {{- with .Values.externalCache }}
+  {{- if .enabled }}
+  REDIS_HOST: {{ .host | b64enc }}
+  REDIS_HOST_PORT: {{ (.port | toString) | b64enc }}
+  {{- if .password }}
+  REDIS_HOST_PASSWORD: {{ .password | b64enc }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+{{- with .Values.settings.admin }}
+  {{- if .name }}
+  NEXTCLOUD_ADMIN_USER: {{ .name | b64enc }}
+  NEXTCLOUD_ADMIN_PASSWORD: {{ required "Values: settings.admin.password is mandatory if name is specified." .password | b64enc }}
+  {{- end }}
+{{- end }}
+{{- with .Values.settings.smtp }}
+  {{- if .enabled }}
+  SMTP_NAME: {{ .name | b64enc }}
+  SMTP_PASSWORD: {{ .password | b64enc }}
+  {{- end }}  
+{{- end }}

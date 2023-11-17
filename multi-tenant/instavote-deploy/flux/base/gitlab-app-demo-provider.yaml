@@ -1,0 +1,11 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Provider
+metadata:
+  name: gitlab-app-demo
+  namespace: instavote
+spec:
+  address: http://gitlab.forcemcs.cn/multi-tenant/instavote-deploy.git
+  secretRef:
+    name: gitlab-token
+  type: gitlab

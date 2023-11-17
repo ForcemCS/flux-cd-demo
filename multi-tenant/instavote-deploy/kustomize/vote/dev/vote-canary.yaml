@@ -1,0 +1,13 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: vote
+  namespace: instavote
+spec:
+  analysis:
+    # schedule interval (default 60s)
+    interval: 30s
+    # 定义失败的检测次数
+    threshold: 3
+    # 总迭代次数
+    iterations: 5

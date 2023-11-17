@@ -1,0 +1,17 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Alert
+metadata:
+  name: mattermost-notification
+  namespace: instavote
+spec:
+  eventSeverity: info
+  eventSources:
+  - kind: Kustomization
+    name: '*'
+  - kind: GitRepository
+    name: '*'
+  - kind: HelmRepository
+    name: '*'
+  providerRef:
+    name: mattermost

@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patches:
+- path: expose-webhook-receiver.yaml
+  target:
+    kind: Service
+    name: webhook-receiver
+resources:
+- gotk-components.yaml
+- gotk-sync.yaml

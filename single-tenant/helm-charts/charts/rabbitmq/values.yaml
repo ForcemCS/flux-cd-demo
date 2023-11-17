@@ -1,0 +1,186 @@
+## Default values for the RabbitMQ deployment
+
+## RabbitMQ docker image
+image:
+  repository: rabbitmq
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# Default Init container image
+initImage:
+  repository: busybox
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+## Pull secrets and name override options
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+## Number of replicas
+replicaCount: 1
+
+## Additional pod annotations
+podAnnotations: {}
+
+## Pod security options
+podSecurityContext:
+  fsGroup: 999
+
+podManagementPolicy: OrderedReady
+
+updateStrategyType: RollingUpdate
+
+## Default security options to run RabbitMq as read only container without privilege escalation
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsGroup: 999
+  runAsUser: 999
+
+## Default RabbitMq service ports (default: AMQP port 5672, Management UI port 15672)
+service:
+  type: ClusterIP
+  amqp:
+    port: 5672
+    ## The node port (only relevant for type LoadBalancer or NodePort)
+    nodePort:
+  mgmt:
+    port: 15672
+    ## The node port (only relevant for type LoadBalancer or NodePort)
+    nodePort:
+  ## The cluster ip address (only relevant for type LoadBalancer or NodePort)
+  clusterIP:
+  ## The loadbalancer ip address (only relevant for type LoadBalancer)
+  loadBalancerIP:
+
+## Ingress configuration
+ingress:
+  enabled: false
+
+  ## Additional ingress annotations
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+
+  ## Hosts
+  hosts:
+    - host:
+      paths:
+        - /
+
+  ## TLS settings for hosts
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## Resource limits and requests
+resources: {}
+# limits:
+#    cpu: 100m
+#    memory: 512Mi
+# requests:
+#    cpu: 100m
+#    memory: 128Mi
+
+## Additional node selector
+nodeSelector: {}
+
+tolerations: []
+affinity: {}
+
+## Custom liveness probe (overwrites default liveness probe)
+customLivenessProbe: {}
+
+## Default liveness probe
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 60
+  timeoutSeconds: 20
+  periodSeconds: 30
+  failureThreshold: 5
+  successThreshold: 1
+
+## Custom readiness probe (overwrites default readiness probe)
+customReadinessProbe: {}
+
+## Default readiness probe
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 60
+  timeoutSeconds: 20
+  periodSeconds: 30
+  failureThreshold: 5
+  successThreshold: 1
+
+## Service account (necessary in cluster mode)
+serviceAccount:
+  create: true
+  ## The name of the ServiceAccount to use. (If not set and create is true, a name is generated using the rabbitmq.fullname template)
+  # name:
+
+## Create RBAC (necessary in cluster mode)
+rbac:
+  create: true
+
+## Additional environment variables
+env: []
+
+## Arguments for the container entrypoint process
+args: []
+
+## Default Kubernetes cluster domain
+clusterDomain: cluster.local
+
+## Disable internal metrics collector (management_agent.disable_metrics_collector)
+disableMetricsCollector: false
+
+# Comma separated list of plugins (without whitespace!) - f.e.: rabbitmq_federation_management,rabbitmq_management,rabbitmq_mqtt,rabbitmq_stomp,rabbitmq_peer_discovery_k8s
+plugins: rabbitmq_management,rabbitmq_peer_discovery_k8s
+
+# High memory watermark option is described at https://www.rabbitmq.com/memory.html
+options:
+  memoryHighWatermark:
+    enabled: false
+    type: "relative"
+    value: 0.4
+
+# Default user and erlang cookie
+# The erlang cookie is important for clustered or container based usage
+# Find more information about it at https://hub.docker.com/_/rabbitmq and https://www.rabbitmq.com/clustering.html#erlang-cookie
+# If password of erlang cookie not provided in configuration random values will be generated
+authentication:
+  ## Initial user name
+  user: admin
+
+  ## Initial password (default: random alphanumeric 10 characters)
+  password:
+
+  ## Erlang cookie (default: Random base64 value)
+  erlangCookie:
+
+## Clustering settings
+clustering:
+  ## Cluster address type (default: hostname)
+  addressType: hostname
+  ## Rebalance queues with master when new replica is created
+  rebalance: true
+
+## Storage parameters
+storage:
+  ## Set persistentVolumenClaimName to reference an existing PVC
+  persistentVolumeClaimName:
+
+  ## Alternative set requestedSize to define a size for a dynamically created PVC
+  requestedSize:
+
+  ## the storage class name
+  className:
+
+  ## Default access mode (ReadWriteOnce)
+  accessModes:
+    - ReadWriteOnce

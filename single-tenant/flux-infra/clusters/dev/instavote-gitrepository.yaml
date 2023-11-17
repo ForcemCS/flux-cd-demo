@@ -1,0 +1,14 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: app-demo
+  namespace: flux-system
+spec:
+  interval: 1h
+  ref:
+    branch: main
+  secretRef:
+    name: app-demo
+  timeout: 1m0s
+  url: ssh://git@gitlab.forcemcs.cn/flux-cd/app-demo.git

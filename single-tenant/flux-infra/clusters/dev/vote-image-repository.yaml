@@ -1,0 +1,16 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: vote
+  namespace: flux-system
+spec:
+  certSecretRef:
+    name: harbor-certs
+  exclusionList:
+  - ^.*\.sig$
+  image: harbor.forcecs.com:32415/vote/vote
+  interval: 1m0s
+  provider: generic
+  secretRef:
+    name: image-repository

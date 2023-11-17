@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../base
+patches:
+- path: deployment.yaml
+  target:
+    kind: Deployment
+    name: vote
+- path: progressive-canary-strategy.yaml
+  target:
+    kind: Canary
+    name: vote
+replicas:
+- name: vote
+  count: 1
+images:
+- name: schoolofdevops/vote
+  newName: schoolofdevops/vote
+  newTag: v1
+namespace: instavote
+configMapGenerator:
+- name: vote-options
+  envs:
+  - options.env

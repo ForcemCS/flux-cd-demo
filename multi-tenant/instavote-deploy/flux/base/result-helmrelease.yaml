@@ -1,0 +1,16 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: result
+  namespace: instavote
+spec:
+  chart:
+    spec:
+      chart: ./helm/charts/result
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: GitRepository
+        name: app-demo
+  interval: 10m0s
+  targetNamespace: instavote

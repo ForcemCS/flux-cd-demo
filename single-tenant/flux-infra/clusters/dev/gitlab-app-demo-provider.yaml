@@ -1,0 +1,11 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Provider
+metadata:
+  name: gitlab-app-demo
+  namespace: flux-system
+spec:
+  address: http://gitlab.forcemcs.cn/flux-cd/app-demo.git
+  secretRef:
+    name: gitlab-token
+  type: gitlab

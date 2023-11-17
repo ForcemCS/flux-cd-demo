@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: facebooc
+  name: facebooc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: facebooc
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: facebooc
+    spec:
+      containers:
+      - image: schoolofdevops/facebooc:latest
+        name: facebooc
+        ports:
+        - containerPort: 16000
+        resources: {}
+status: {}

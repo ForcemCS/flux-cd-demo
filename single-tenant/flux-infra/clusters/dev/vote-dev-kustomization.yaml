@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: vote-dev
+  namespace: flux-system
+spec:
+  dependsOn:
+  - name: redis-dev
+  healthChecks:
+  - kind: Deployment
+    name: vote
+    namespace: instavote
+  interval: 1h
+  path: ./deploy/vote/dev
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: app-demo
+  targetNamespace: instavote
+  timeout: 2m0s

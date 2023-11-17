@@ -1,0 +1,30 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  labels:
+    app: vote
+  name: vote
+  namespace: instavote
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: vote.forcecs.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: vote
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  #tls:
+  #- hosts:
+  #  - vote.forcecs.com
+  #  secretName: vote-ingress

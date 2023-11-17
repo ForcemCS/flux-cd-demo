@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: instavote
+  name: instavote-service
+  labels:
+    app: instavote-service
+spec:
+  selector:
+    #matchLabels:
+    #  app: coo-service
+    matchExpressions:
+      - {key: app, operator: In, values: [vote, vote-canary ,vote-primary]}
+  endpoints:
+  - port: http
+  namespaceSelector:
+    matchNames:
+    - instavote

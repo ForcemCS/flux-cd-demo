@@ -1,0 +1,25 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: instavote-all
+  namespace: instavote
+spec:
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: kuiinative@gmail.com
+        name: wukui
+      messageTemplate: '{{range .Updated.Images}}{{println .}}{{end}}'
+    push:
+      branch: main
+  interval: 30m0s
+  sourceRef:
+    kind: GitRepository
+    name: app-demo
+  update:
+    path: ./deploy/vote/dev
+    strategy: Setters

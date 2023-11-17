@@ -1,0 +1,15 @@
+apiVersion: v2
+name: metrics-server
+description: A Helm chart for Kubernetes metrics-server
+
+type: application
+
+maintainers:
+  - name: groundhog2k
+
+version: 2.12.3
+
+appVersion: "v0.4.2"
+
+keywords:
+  - metrics-server

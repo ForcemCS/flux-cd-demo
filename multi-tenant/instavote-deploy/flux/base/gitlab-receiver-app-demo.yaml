@@ -1,0 +1,17 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: gitlab-receiver-app-demo
+  namespace: instavote
+spec:
+  events:
+  - Push Hook
+  - Tag Push Hook
+  interval: 10m0s
+  resources:
+  - kind: GitRepository
+    name: app-demo
+  secretRef:
+    name: webhook-token
+  type: gitlab

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "gitea.fullname" . }}-scripts
+  labels:
+    {{- include "gitea.labels" . | nindent 4 }}
+data:
+  init.sh: |
+    #!/bin/bash
+    if [ ! -d /data/gitea/conf ]; then
+      mkdir -p /data/gitea/conf
+      mkdir -p /data/gitea/lfs
+      mkdir -p /data/git
+      mkdir -p /data/git/gitea-repositories
+      mkdir -p /data/log
+    fi
+    cp /config/app.ini /data/gitea/conf/app.ini
+    chmod u+rw /data/gitea/conf/app.ini
+
+  createdefaultadmin.sh: |
+    #!/bin/bash
+    if [ ! -f /data/gitea/conf/.post-install-done ]; then
+      sleep {{ .Values.settings.postInstallDelay }}
+      {{- with .Values.settings.defaultAdmin }}
+      /app/gitea/gitea admin user create --username {{ .user }} --password {{ .password }} --email {{ .email }} --admin --must-change-password
+      {{- end }}
+      touch /data/gitea/conf/.post-install-done
+    fi

@@ -1,0 +1,14 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: app-demo
+  namespace: instavote
+spec:
+  interval: 30m
+  ref:
+    branch: main
+  secretRef:
+    name: app-demo
+  timeout: 1m0s
+  url: ssh://git@gitlab.forcemcs.cn/multi-tenant/instavote-deploy.git
